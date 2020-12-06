@@ -56,8 +56,8 @@ if FLAGS.training:
 else:
   DEVICE = '/cpu:0'
 
-LOG = FLAGS.log_path+FLAGS.map
-SNAPSHOT = FLAGS.snapshot_path+FLAGS.map
+LOG = FLAGS.log_path
+SNAPSHOT = FLAGS.snapshot_path
 if not os.path.exists(LOG):
   os.makedirs(LOG)
 if not os.path.exists(SNAPSHOT):
