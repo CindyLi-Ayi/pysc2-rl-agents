@@ -32,23 +32,93 @@ FLAGS(sys.argv)
 
 class BuildMarines(base_agent.BaseAgent):
     def setup(self, obs_spec, action_spec, ssize):
-        super(DefeatZerglingsAndBanelings, self).setup(obs_spec, action_spec)
+        super(BuildMarines, self).setup(obs_spec, action_spec)
         self.ssize = ssize
 
     def reset(self):
-        super(DefeatZerglingsAndBanelings, self).reset()
+        super(BuildMarines, self).reset()
         self.isReset=True
+        self.hasSupply=False
+        self.hasBarrack=False
+        self.hasSCV=False
 
     def mykey(self, x):#按y从小到大排序用
         return x[1]
 
     def step(self, obs):
-        super(DefeatZerglingsAndBanelings, self).step(obs)
+        super(BuildMarines, self).step(obs)
 
         scvs = [[unit.x, unit.y] for unit in obs.observation.feature_units if unit.unit_type==units.Terran.SCV]
+        if obs.observation.player[features.Player.minerals] >= 100 and obs.observation.single_select.shape != (0, 7) and \
+                obs.observation.single_select[0, 0] == units.Terran.SCV:
+            barracks = [[unit.x, unit.y] for unit in obs.observation.feature_units if unit.unit_type==units.Terran.Barracks]
+            if barracks!=[]:
+                return FUNCTIONS.select_point("select", barracks[0])
 
+        if obs.observation.player[features.Player.minerals] >= 100 and obs.observation.single_select.shape == (0, 7):
+            barracks = [[unit.x, unit.y] for unit in obs.observation.feature_units if
+                        unit.unit_type == units.Terran.Barracks]
+            if barracks != []:
+                return FUNCTIONS.select_point("select", barracks[0])
+            else:
+                return FUNCTIONS.select_point("select", scvs[0])
+
+
+
+        elif 91 in obs.observation.available_actions and 42 not in obs.observation.available_actions and \
+                obs.observation.player[features.Player.minerals] >= 100 and obs.observation.single_select.shape != (0, 7):
+            act_id = 91  # build 补给站 且没兵营
+            act_args = [[0], [5, 5]]
+            return actions.FunctionCall(act_id, act_args)
+
+        elif 42 in obs.observation.available_actions and obs.observation.player[
+            features.Player.minerals] >= 150 and obs.observation.single_select.shape != (0, 7):
+            act_id = 42  # build 兵营
+            act_args = [[0], [45, 45]]
+            return actions.FunctionCall(act_id, act_args)
+
+        elif 477 in obs.observation.available_actions and obs.observation.player[features.Player.minerals] >= 150:
+            act_id = 477  # build 兵
+            act_args = [[1]]
+            return actions.FunctionCall(act_id, act_args)
+        return FUNCTIONS.no_op()
+        
+        """
         if self.isReset:#初始时手动选择一个scv，之后可以根据select和idleworker选择
+            self.isReset=False
             return FUNCTIONS.select_point('select', scvs[0])
+
+        if obs.observation.player[features.Player.minerals]>100 and not self.hasSupply:
+            self.hasSupply = True
+            act_args = [[0], [5, 5]]
+            return actions.FunctionCall(91, act_args)
+
+
+        if self.hasSupply and obs.observation.player[features.Player.minerals]>150 and not self.hasBarrack:
+            if not self.hasSCV:
+                self.hasSCV = True
+                return FUNCTIONS.select_idle_worker('select')
+            self.hasBarrack=True
+            act_args = [[0], [40,40]]
+            return actions.FunctionCall(42, act_args)
+
+        if self.hasBarrack and obs.observation.player[features.Player.minerals]>50:
+            bar = [unit for unit in obs.observation.feature_units if unit.unit_type==units.Terran.Barracks]
+            for i in range(len(bar)):
+                if bar[i].is_selected:
+                    return actions.FunctionCall(477, [[0]])
+
+            #没有barrack被选择
+            return FUNCTIONS.select_point('select', [bar[0].x, bar[0].y])
+
+
+
+
+
+
+
+        return FUNCTIONS.no_op()"""
+
 
 
 
