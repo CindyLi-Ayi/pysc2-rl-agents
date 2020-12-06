@@ -82,7 +82,7 @@ class BuildMarines(base_agent.BaseAgent):
             act_args = [[1]]
             return actions.FunctionCall(act_id, act_args)
         return FUNCTIONS.no_op()
-        
+
         """
         if self.isReset:#初始时手动选择一个scv，之后可以根据select和idleworker选择
             self.isReset=False

@@ -36,11 +36,13 @@ class DefeatRoaches(base_agent.BaseAgent):
     def setup(self, obs_spec, action_spec, ssize):
         super(DefeatRoaches, self).setup(obs_spec, action_spec)
         self.ssize = ssize
+        self.wait=0
 
     def reset(self):
         super(DefeatRoaches, self).reset()
         self.hasmove = False
         self.queue = True
+        self.wait=0
 
     def find_target(self, roaches, marines):
         marines_xy = np.mean(marines, axis=0)
@@ -78,12 +80,16 @@ class DefeatRoaches(base_agent.BaseAgent):
 
         self.num = len(marines)
 
+
+
         if not self.hasmove and marines_xy[1] > roaches_xy[1] and marines_xy[1] < 45: #在下方就向下调整
             self.hasmove = True
+
             return FUNCTIONS.Move_screen('now', [marines_xy[0], 63])
 
         elif not self.hasmove and marines_xy[1] < roaches_xy[1] and marines_xy[1] > 20 :#在上方就向上调整
             self.hasmove = True
+
             return FUNCTIONS.Move_screen('now', [marines_xy[0], 0])
         elif roaches != []:
             target = self.find_target(roaches, marines)
