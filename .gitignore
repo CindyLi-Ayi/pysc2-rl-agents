@@ -5,3 +5,12 @@ base_rl_model/__pycache__/input_preprocess.cpython-37.pyc
 base_rl_model/__pycache__/main.cpython-37.pyc
 base_rl_model/__pycache__/network.cpython-37.pyc
 .DS_Store
+CollectMineralsAngGas/__pycache__/a2c_agent.cpython-37.pyc
+CollectMineralsAngGas/__pycache__/input_preprocess.cpython-37.pyc
+CollectMineralsAngGas/__pycache__/main.cpython-37.pyc
+CollectMineralsAngGas/__pycache__/network.cpython-37.pyc
+CollectMineralsAngGas/log/CollectMineralsAndGas/events.out.tfevents.1607249121.Xinyis-MacBook-Air.local
+CollectMineralsAngGas/snapshot/CollectMineralsAndGas/checkpoint
+CollectMineralsAngGas/snapshot/CollectMineralsAndGas/model.pkl-1.data-00000-of-00001
+CollectMineralsAngGas/snapshot/CollectMineralsAndGas/model.pkl-1.index
+CollectMineralsAngGas/snapshot/CollectMineralsAndGas/model.pkl-1.meta

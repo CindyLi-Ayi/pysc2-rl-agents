@@ -88,10 +88,10 @@ def run_loop(agents, env, max_frames=0):
     print("Took %.3f seconds" % elapsed_time)
 
 
-def run_thread(agents, players, map_name, visualize):
+def run_thread(agent, player, map_name, visualize):
   with sc2_env.SC2Env(
       map_name=map_name,
-      players=players,
+      players=[player],
       agent_interface_format=sc2_env.parse_agent_interface_format(
           feature_screen=FLAGS.screen_resolution,
           feature_minimap=FLAGS.minimap_resolution),
@@ -102,7 +102,7 @@ def run_thread(agents, players, map_name, visualize):
     replay_buffer = []
     mean_score = 0
     count = 0
-    for recorder, is_done in run_loop(agents, env, FLAGS.max_agent_steps):
+    for recorder, is_done in run_loop([agent], env, FLAGS.max_agent_steps):
       if FLAGS.training:
         replay_buffer.append(recorder)
         if is_done:
@@ -157,7 +157,7 @@ def main(arg):
     global COUNTER
     COUNTER = agent.load_model(SNAPSHOT)
 
-  run_thread([agent], [player], FLAGS.map, FLAGS.render)
+  run_thread(agent, player, FLAGS.map, FLAGS.render)
 
 
 if __name__ == "__main__":
