@@ -12,12 +12,12 @@ def build_net(screen):
   """
   ## feature extraction
   screen_conv1 = layers.conv2d(tf.transpose(screen, [0, 2, 3, 1]),
-                         num_outputs=16,
+                         num_outputs=4,
                          kernel_size=5,
                          stride=1,
                          scope='screen_conv1')
   screen_conv2 = layers.conv2d(screen_conv1,
-                         num_outputs=32,
+                         num_outputs=8,
                          kernel_size=3,
                          stride=1,
                          scope='screen_conv2')

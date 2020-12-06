@@ -108,8 +108,8 @@ class A2CAgent(object):
     spatial_action = spatial_action.ravel()
     target = np.argmax(spatial_action)
     target = [int(target // self.ssize), int(target % self.ssize)]
-    print(target, end=' ')
-    print(obs.observation['feature_screen'][5, target[1], target[0]] == 3)
+    # print(target, end=' ')
+    # print(obs.observation['feature_screen'][5, target[1], target[0]] == 3, end=' ')
 
     ## epsilon greedy exploration
     if self.training and np.random.rand() < self.epsilon[1]:

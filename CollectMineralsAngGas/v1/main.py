@@ -33,6 +33,7 @@ flags.DEFINE_string("device", "0", "Device for training.")
 flags.DEFINE_float("epsilon_non_spatial", 0, "epsilon of choosing random action")
 flags.DEFINE_float("epsilon_spatial", 1, "epsilon of choosing random xy location")
 flags.DEFINE_integer("random_range", 32, "change of xy location")
+flags.DEFINE_integer("mean_episodes", 100, "How many episode for mean")
 
 ## game parameters
 flags.DEFINE_string("map", "MoveToBeacon", "Name of a map to use.")
@@ -119,9 +120,9 @@ def run_thread(agent, player, map_name, visualize):
         score = obs["score_cumulative"][0]
         print('Your score is ' + str(score) + '!')
         mean_score = mean_score + score
-        if count % FLAGS.mean_episodes == 0:
+        if count == FLAGS.mean_episodes:
           print("your mean score in 100 episode is ", mean_score // 100)
-          mean_score = 0
+          break
 
 
 def main(arg):
