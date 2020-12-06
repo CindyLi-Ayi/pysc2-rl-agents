@@ -254,7 +254,7 @@ Baseline: 3351
 
 Best score: 3925
 
-Best mean:
+Best mean: 3841
 
 - 总共尝试了以下几个版本：
 
