@@ -33,6 +33,7 @@ flags.DEFINE_string("device", "0", "Device for training.")
 flags.DEFINE_float("epsilon_non_spatial", 0.05, "epsilon of choosing random action")
 flags.DEFINE_float("epsilon_spatial", 0.2, "epsilon of choosing random xy location")
 flags.DEFINE_integer("random_range", 5, "change of xy location")
+flags.DEFINE_integer("mean_episodes", 100, "How many episode for mean")
 
 ## game parameters
 flags.DEFINE_string("map", "MoveToBeacon", "Name of a map to use.")
@@ -47,7 +48,7 @@ flags.DEFINE_enum("agent_race", 'random', sc2_env.Race._member_names_, "Agent's 
 flags.DEFINE_enum("bot_race", None, sc2_env.Race._member_names_, "Bot's race.")
 flags.DEFINE_enum("difficulty", None, sc2_env.Difficulty._member_names_, "Bot's strength.")
 flags.DEFINE_integer("max_agent_steps", 1200, "Total agent steps.")
-flags.DEFINE_integer("mean_episodes", 100, "How many episode for mean")
+
 
 
 FLAGS(sys.argv)
