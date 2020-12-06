@@ -12,27 +12,27 @@ def build_net(minimap, screen, structure, num_action):
   """
   ## feature extraction
   minimap_conv1 = layers.conv2d(tf.transpose(minimap, [0, 2, 3, 1]),
-                         num_outputs=16,
+                         num_outputs=4,
                          kernel_size=5,
                          stride=1,
                          scope='minimap_conv1')
   minimap_conv2 = layers.conv2d(minimap_conv1,
-                         num_outputs=32,
+                         num_outputs=8,
                          kernel_size=3,
                          stride=1,
                          scope='minimap_conv2')
   screen_conv1 = layers.conv2d(tf.transpose(screen, [0, 2, 3, 1]),
-                         num_outputs=16,
+                         num_outputs=4,
                          kernel_size=5,
                          stride=1,
                          scope='screen_conv1')
   screen_conv2 = layers.conv2d(screen_conv1,
-                         num_outputs=32,
+                         num_outputs=8,
                          kernel_size=3,
                          stride=1,
                          scope='screen_conv2')
   structure_fc = layers.fully_connected(layers.flatten(structure),
-                                   num_outputs=256,
+                                   num_outputs=64,
                                    activation_fn=tf.tanh,
                                    scope='structure_fc')
 
