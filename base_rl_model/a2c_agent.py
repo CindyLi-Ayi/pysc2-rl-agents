@@ -121,9 +121,10 @@ class A2CAgent(object):
     if self.training and np.random.rand() < self.epsilon[0]:
       act_id = np.random.choice(valid_actions)
     if self.training and np.random.rand() < self.epsilon[1]:
-      dy = np.random.randint(-4, 5)
+      range = int(self.random_range)
+      dy = np.random.randint(-range, range)
       target[0] = int(max(0, min(self.ssize-1, target[0]+dy)))
-      dx = np.random.randint(-4, 5)
+      dx = np.random.randint(-range, range)
       target[1] = int(max(0, min(self.ssize-1, target[1]+dx)))
 
     ## return function
