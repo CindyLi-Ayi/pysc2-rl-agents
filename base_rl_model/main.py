@@ -47,6 +47,7 @@ flags.DEFINE_enum("agent_race", 'random', sc2_env.Race._member_names_, "Agent's 
 flags.DEFINE_enum("bot_race", None, sc2_env.Race._member_names_, "Bot's race.")
 flags.DEFINE_enum("difficulty", None, sc2_env.Difficulty._member_names_, "Bot's strength.")
 flags.DEFINE_integer("max_agent_steps", 1200, "Total agent steps.")
+flags.DEFINE_integer("mean_episodes", 100, "How many episode for mean")
 
 
 FLAGS(sys.argv)
@@ -99,6 +100,8 @@ def run_thread(agents, players, map_name, visualize):
     env = available_actions_printer.AvailableActionsPrinter(env)
 
     replay_buffer = []
+    mean_score = 0
+    count = 0
     for recorder, is_done in run_loop(agents, env, FLAGS.max_agent_steps):
       if FLAGS.training:
         replay_buffer.append(recorder)
@@ -112,9 +115,14 @@ def run_thread(agents, players, map_name, visualize):
           if COUNTER >= FLAGS.max_episode:
             break
       elif is_done:
+        count += 1
         obs = recorder[-1].observation
         score = obs["score_cumulative"][0]
         print('Your score is '+str(score)+'!')
+        mean_score = mean_score + score
+        if count % FLAGS.mean_episodes == 0:
+          print("your mean score in 100 episode is ", mean_score // 100)
+          mean_score = 0
 
 
 def main(arg):
