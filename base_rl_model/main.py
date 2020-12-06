@@ -121,9 +121,9 @@ def run_thread(agent, player, map_name, visualize):
         score = obs["score_cumulative"][0]
         print('Your score is '+str(score)+'!')
         mean_score = mean_score + score
-        if count % FLAGS.mean_episodes == 0:
+        if count == FLAGS.mean_episodes:
           print("your mean score in 100 episode is ", mean_score // 100)
-          mean_score = 0
+          break
 
 
 def main(arg):

@@ -47,6 +47,7 @@ class A2CAgent(object):
   def reset(self):
     self.walked = False
     if self.epsilon[1]>0.1:
+      self.epsilon[0] *= 0.9
       self.epsilon[1] *= 0.9
     if self.random_range>1:
       self.random_range *= 0.9
