@@ -156,7 +156,7 @@ class A2CAgent(object):
       minimap = np.expand_dims(PP.preprocess_minimap(minimap), axis=0)
       screen = np.array(obs.observation['feature_screen'], dtype=np.float32)
       screen = np.expand_dims(PP.preprocess_screen(screen), axis=0)
-      structure = np.expand_dims(PP.preprocess_screen(obs), axis=0)
+      structure = np.expand_dims(PP.preprocess_structure(obs), axis=0)
       feed = {self.minimap: minimap,
               self.screen: screen,
               self.structure: structure}
@@ -181,7 +181,7 @@ class A2CAgent(object):
       minimap = np.expand_dims(PP.preprocess_minimap(minimap), axis=0)
       screen = np.array(obs.observation['feature_screen'], dtype=np.float32)
       screen = np.expand_dims(PP.preprocess_screen(screen), axis=0)
-      structure = np.expand_dims(PP.preprocess_screen(obs), axis=0)
+      structure = np.expand_dims(PP.preprocess_structure(obs), axis=0)
 
       minimaps.append(minimap)
       screens.append(screen)
