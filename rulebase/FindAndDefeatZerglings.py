@@ -50,7 +50,9 @@ class FindAndDefeatZerglings(base_agent.BaseAgent):
         """self.map = [[42,21], [63,21], [63,5], [42,5], [21, 5], [5,5], [5,21], [21,21], [21,42],
                     [5,42], [5,60], [21,60], [42,60], [60,60], [60,42], [42,42]]"""
 
-        self.map = [[58,32], [58,4], [30,5], [4,4], [5,30], [4,58], [30, 55], [58,58], [58, 42], [16,42], [16,32], [32,32]]
+        #self.map = [[50,32], [50,10], [30,10], [10,10], [8,30], [8,52], [30, 50], [50,58], [58, 42], [16,42], [16,32], [32,32]]
+        self.map = [[50, 32], [50, 10], [30, 10], [10, 10], [8, 30], [8, 52], [30, 50], [50, 58],[32,32]]
+        #self.map = [[]]
         """self.map = [[40,20], [60,20], [60,8], [40,8], [24,8], [5,8], [5,24], [24,24],
                     [24,40], [5,40], [5,60], [24,56], [40,56], [60,60], [60,40], [40,40]]"""
 
@@ -66,12 +68,17 @@ class FindAndDefeatZerglings(base_agent.BaseAgent):
     def step(self, obs):
         super(FindAndDefeatZerglings, self).step(obs)
         if FUNCTIONS.Attack_minimap.id in obs.observation.available_actions:
+            if self.gap>0:
+                self.gap-=1
+                return FUNCTIONS.no_op()
             targets = [[min(max(0,unit.x),63), min(63, max(0,unit.y))] for unit in obs.observation.feature_units if unit.unit_type==_ZERGLING ]
             #print(targets)
             targets.sort(key=self.mykey)
 
             if targets!=[]:
-                return FUNCTIONS.Attack_screen('now', targets[0])
+                self.gap = 10
+                return FUNCTIONS.Attack_screen('queued', targets[0])
+
 
             now = self.i
             """for x in range(self.ssize):
@@ -81,7 +88,7 @@ class FindAndDefeatZerglings(base_agent.BaseAgent):
                         print([x,y])
                         return FUNCTIONS.Attack_screen('now', [x ,y])"""
             self.i = (self.i+1)%len(self.map)
-
+            self.gap=10
             return FUNCTIONS.Attack_minimap('queued', self.map[now])
 
         return FUNCTIONS.select_army('select')
